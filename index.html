@@ -47,7 +47,7 @@
       </div>
       <div class="tools">
         <label class="search-box"><span>Tìm</span><input id="search" type="search" placeholder="Sản phẩm, danh mục, mã hóa đơn..."></label>
-        <button id="scanBtn" type="button">Quét mã</button><button id="sheetsBtn" type="button">Google Sheets</button><button id="exportBtn" type="button">Xuất dữ liệu</button>
+        <button id="scanBtn" type="button">Quét mã</button><label class="currency-switch"><span>Tiền tệ</span><select id="currencySelect"><option value="VND">VND</option><option value="USD">$</option></select></label><button id="sheetsBtn" type="button">Google Sheets</button><button id="exportBtn" type="button">Xuất dữ liệu</button>
       </div>
     </header>
 
@@ -86,7 +86,7 @@
           <div class="panel-head"><div><h2>Giỏ hàng</h2><small>Thông tin thanh toán</small></div><button id="clearCart" class="icon-btn" type="button" title="Xóa giỏ hàng">X</button></div>
           <div class="customer"><input id="customer" placeholder="Tên khách hàng"><input id="phone" placeholder="Số điện thoại"></div>
           <div id="editNotice"></div><div id="cart"></div>
-          <div class="totals"><label>Giảm giá <input id="discount" type="number" min="0" value="0"></label><label>Thuế suất (%) <input id="vat" type="number" min="0" step="0.1" value="8" inputmode="decimal"></label><p><span>Tạm tính</span><b id="subTotal"></b></p><p><span>Tiền thuế</span><b id="tax"></b></p><p class="grand"><span>Tổng cộng</span><b id="grand"></b></p></div>
+          <div class="totals"><label>Giảm giá <span class="money-field compact-money"><input id="discount" class="money-input" inputmode="decimal" value="0"><span class="money-suffix">VND</span></span></label><label>Thuế suất (%) <input id="vat" type="number" min="0" step="0.1" value="8" inputmode="decimal"></label><p><span>Tạm tính</span><b id="subTotal"></b></p><p><span>Tiền thuế</span><b id="tax"></b></p><p class="grand"><span>Tổng cộng</span><b id="grand"></b></p></div>
           <button id="checkout" class="primary wide" type="button">Tạo hóa đơn</button>
         </div>
       </div>
@@ -96,7 +96,7 @@
       <div class="stock-grid">
         <div class="panel">
           <div class="panel-head"><div><h2 id="formTitle">Thêm sản phẩm</h2><small>Cập nhật giá và số lượng tồn</small></div><button id="newProduct" type="button">Mới</button></div>
-          <form id="productForm"><input type="hidden" id="pid"><label>IMEI / S/N và giá riêng <textarea id="pserials" rows="5" placeholder="Mỗi dòng một mã. Có giá riêng thì ghi: IMEI | Giá bán"></textarea></label><label>Tên sản phẩm<input id="pname" required></label><label>Danh mục<input id="pcat" required></label><label>Giá bán<input id="price" type="number" min="0" required></label><label>Giá vốn<input id="cost" type="number" min="0" required></label><div class="pair"><label>Tồn kho<input id="qty" type="number" min="0" required></label><label>Cảnh báo<input id="min" type="number" min="0" required></label></div><button class="primary" type="submit">Lưu sản phẩm</button></form>
+          <form id="productForm"><input type="hidden" id="pid"><label>IMEI / S/N và giá riêng <textarea id="pserials" rows="5" placeholder="Mỗi dòng một mã. Có giá riêng thì ghi: IMEI | Giá bán"></textarea></label><label>Tên sản phẩm<input id="pname" required></label><label>Danh mục<input id="pcat" required></label><label>Giá bán<span class="money-field"><input id="price" class="money-input" inputmode="decimal" required><span class="money-suffix">VND</span></span></label><label>Giá vốn<span class="money-field"><input id="cost" class="money-input" inputmode="decimal" required><span class="money-suffix">VND</span></span></label><div class="pair"><label>Tồn kho<input id="qty" type="number" min="0" placeholder="Tự tính nếu có IMEI/S/N"></label><label>Cảnh báo<input id="min" type="number" min="0" required></label></div><button class="primary" type="submit">Lưu sản phẩm</button></form>
         </div>
         <div class="panel"><div class="panel-head"><div><h2>Danh sách tồn kho</h2><small id="stockCount"></small></div></div><div class="table-wrap"><table><thead><tr><th>IMEI / S/N</th><th>Sản phẩm</th><th>Danh mục</th><th>Giá bán</th><th>Tồn</th><th>Trạng thái</th><th></th></tr></thead><tbody id="stockTable"></tbody></table></div></div>
       </div>
