@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#14252b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Nâu Gamestore">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Nâu Gamestore Tool - Quản lý bán hàng</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <b>NG</b>
+      <div>
+        <strong>Nâu Gamestore Tool</strong>
+        <span>Bán hàng, kho, hóa đơn</span>
+      </div>
+    </div>
+
+    <nav class="tabs" aria-label="Điều hướng chính">
+      <button class="tab active" data-view="dashboard" type="button"><span>TQ</span>Tổng quan</button>
+      <button class="tab" data-view="sales" type="button"><span>BH</span>Bán hàng</button>
+      <button class="tab" data-view="stock" type="button"><span>TK</span>Tồn kho</button>
+      <button class="tab" data-view="invoices" type="button"><span>HD</span>Hóa đơn</button>
+    </nav>
+
+    <section class="store">
+      <small>Cửa hàng</small>
+      <strong id="storeLabel"></strong>
+      <p id="storeAddressLabel"></p>
+      <button id="storeBtn" type="button">Sửa thông tin</button>
+    </section>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <small id="dateLabel"></small>
+        <h1 id="title">Tổng quan</h1>
+        <p id="subtitle">Theo dõi nhanh doanh thu, đơn hàng và hàng cần nhập.</p>
+      </div>
+      <div class="tools">
+        <label class="search-box"><span>Tìm</span><input id="search" type="search" placeholder="Sản phẩm, danh mục, mã hóa đơn..."></label>
+        <button id="scanBtn" type="button">Quét mã</button><label class="currency-switch"><span>Tiền tệ</span><select id="currencySelect"><option value="VND">VND</option><option value="USD">$</option></select></label><button id="sheetsBtn" type="button">Google Sheets</button><button id="exportBtn" type="button">Xuất dữ liệu</button>
+      </div>
+    </header>
+
+    <section id="dashboard" class="view active">
+      <div class="metrics">
+        <article><small>Doanh thu hôm nay</small><b id="mRevenue"></b></article>
+        <article><small>Đơn hàng hôm nay</small><b id="mOrders"></b></article>
+        <article><small>Lợi nhuận hôm nay</small><b id="mProfit"></b></article>
+        <article><small>Giá trị tồn kho</small><b id="mStockValue"></b></article>
+        <article><small>Sắp hết hàng</small><b id="mLow"></b></article>
+      </div>
+      <div class="panel period-panel">
+        <div class="panel-head">
+          <div><h2>Tổng kết bán hàng</h2><small id="periodRangeLabel"></small></div>
+          <div class="period-tabs" aria-label="Chọn kỳ tổng kết">
+            <button class="active" data-period="week" type="button">Tuần này</button>
+            <button data-period="month" type="button">Tháng này</button>
+          </div>
+        </div>
+        <div id="periodSummary" class="period-summary"></div>
+        <div class="period-top"><h3>Sản phẩm bán chạy trong kỳ</h3><div id="periodTopProducts"></div></div>
+      </div>
+      <div class="two">
+        <div class="panel"><div class="panel-head"><div><h2>Bán chạy</h2><small>Sản phẩm có số lượng bán cao nhất</small></div></div><div id="topProducts"></div></div>
+        <div class="panel"><div class="panel-head"><div><h2>Cần nhập thêm</h2><small>Chỉ hiện hàng có nhập mức cảnh báo</small></div></div><div id="lowProducts"></div></div>
+      </div>
+    </section>
+
+    <section id="sales" class="view">
+      <div class="sales-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h2>Chọn sản phẩm</h2><small>Bấm thêm để đưa vào giỏ hàng</small></div><select id="category" aria-label="Lọc danh mục"></select></div>
+          <div id="productGrid" class="product-grid"></div>
+        </div>
+        <div class="panel checkout">
+          <div class="panel-head"><div><h2>Giỏ hàng</h2><small>Thông tin thanh toán</small></div><button id="clearCart" class="icon-btn" type="button" title="Xóa giỏ hàng">X</button></div>
+          <div class="customer"><input id="customer" placeholder="Tên khách hàng"><input id="phone" placeholder="Số điện thoại"></div>
+          <div id="editNotice"></div><div id="cart"></div>
+          <div class="totals"><label>Giảm giá <span class="money-field compact-money"><input id="discount" class="money-input" inputmode="decimal" value="0"><span class="money-suffix">VND</span></span></label><label>Thuế suất (%) <input id="vat" type="number" min="0" step="0.1" value="8" inputmode="decimal"></label><p><span>Tạm tính</span><b id="subTotal"></b></p><p><span>Tiền thuế</span><b id="tax"></b></p><p class="grand"><span>Tổng cộng</span><b id="grand"></b></p></div>
+          <button id="checkout" class="primary wide" type="button">Tạo hóa đơn</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="stock" class="view">
+      <div class="stock-grid">
+        <div class="panel">
+          <div class="panel-head"><div><h2 id="formTitle">Thêm sản phẩm</h2><small>Cập nhật giá và số lượng tồn</small></div><button id="newProduct" type="button">Mới</button></div>
+          <form id="productForm"><input type="hidden" id="pid"><label>IMEI / S/N và giá riêng <textarea id="pserials" rows="5" placeholder="Mỗi dòng một mã. Có giá riêng thì ghi: IMEI | Giá bán"></textarea></label><label>Tên sản phẩm<input id="pname" required></label><label>Danh mục<input id="pcat" required></label><label>Giá bán<span class="money-field"><input id="price" class="money-input" inputmode="decimal" required><span class="money-suffix">VND</span></span></label><label>Giá vốn<span class="money-field"><input id="cost" class="money-input" inputmode="decimal" required><span class="money-suffix">VND</span></span></label><div class="pair"><label>Tồn kho<input id="qty" type="number" min="0" placeholder="Tự tính nếu có IMEI/S/N"></label><label>Cảnh báo<input id="min" type="number" min="0" placeholder="Không bắt buộc"></label></div><button class="primary" type="submit">Lưu sản phẩm</button></form>
+        </div>
+        <div class="panel"><div class="panel-head"><div><h2>Danh sách tồn kho</h2><small id="stockCount"></small></div></div><div class="table-wrap"><table><thead><tr><th>IMEI / S/N</th><th>Sản phẩm</th><th>Danh mục</th><th>Giá bán</th><th>Tồn</th><th>Trạng thái</th><th></th></tr></thead><tbody id="stockTable"></tbody></table></div></div>
+      </div>
+    </section>
+
+    <section id="invoices" class="view">
+      <div class="invoice-grid">
+        <div class="panel"><div class="panel-head"><div><h2>Lịch sử hóa đơn</h2><small id="invoiceCount"></small></div></div><div id="invoiceList"></div></div>
+        <div class="panel"><div class="panel-head"><div><h2>Xem lại hóa đơn</h2><small>Chọn hóa đơn bên trái để xem, sửa hoặc in lại</small></div><div class="invoice-header-actions"><button id="editInvoiceBtn" type="button">Sửa hóa đơn</button><button id="printBtn" type="button">In hóa đơn</button><button id="bluetoothPrintBtn" type="button">In Bluetooth</button></div></div><div id="preview" class="preview"></div><div class="shipping-panel"><div class="panel-head"><div><h2>Cập nhật giao hàng</h2><small>Đồng bộ trạng thái vận chuyển với Google Sheets</small></div></div><div class="shipping-form"><label>Đơn vị giao hàng<select id="shipCarrier"><option value="">Chưa chọn</option><option>GHTK</option><option>SPX</option><option>GHN</option><option>Viettel Post</option><option>J&T Express</option><option>GrabExpress</option><option>Khác</option></select></label><label>Mã vận đơn<input id="shipTracking" placeholder="Nhập mã vận đơn"></label><label>Trạng thái<select id="shipStatus"><option>Chưa giao</option><option>Đang chuẩn bị</option><option>Đã gửi đơn vị vận chuyển</option><option>Đang giao</option><option>Đã giao</option><option>Hoàn hàng</option><option>Đã hủy</option></select></label><label>Ghi chú<input id="shipNote" placeholder="Ghi chú giao hàng"></label><button id="saveShippingBtn" class="primary" type="button">Lưu trạng thái</button></div></div></div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="storeDialog"><form method="dialog"><h2>Thông tin cửa hàng</h2><label>Tên cửa hàng<input id="sName"></label><label>Địa chỉ<input id="sAddress"></label><label>Điện thoại<input id="sPhone"></label><menu><button type="submit">Hủy</button><button id="saveStore" type="button" class="primary">Lưu</button></menu></form></dialog>
+
+  <dialog id="sheetsDialog"><form method="dialog"><h2>Liên kết Google Sheets</h2><p class="dialog-help">Dán Web App URL của Google Apps Script để xuất dữ liệu lên Sheet hoặc nhập dữ liệu từ Sheet về app.</p><label>Apps Script Web App URL<input id="sheetsUrl" placeholder="https://script.google.com/macros/s/.../exec"></label><div class="auto-sync-box"><label><input id="autoSheetsSync" type="checkbox"> Đồng bộ tự động khi app đang mở</label><label>Chu kỳ nhập từ Sheet (giây)<input id="sheetsInterval" type="number" min="20" value="60"></label><small>App sẽ tự xuất lên Sheet sau mỗi thay đổi và tự nhập từ Sheet theo chu kỳ khi không có giỏ hàng đang xử lý.</small></div><p id="sheetsStatus" class="sync-status"></p><menu><button type="submit">Đóng</button><button id="saveSheetsUrl" type="button">Lưu URL</button><button id="importSheetsNow" type="button">Nhập từ Sheet</button><button id="syncSheetsNow" type="button" class="primary">Xuất lên Sheet</button></menu></form></dialog>
+  <dialog id="scanDialog"><form method="dialog" class="scan-dialog"><h2>Quét QR / IMEI / S/N</h2><div class="scanner-box"><video id="scanVideo" playsinline muted></video><div class="scan-frame"></div></div><p id="scanStatus" class="sync-status">Đưa mã vào khung camera để quét.</p><label>Nhập mã thủ công<input id="manualScanCode" placeholder="IMEI, Serial Number hoặc nội dung QR"></label><menu><button id="closeScan" type="submit">Đóng</button><button id="useManualScan" type="button">Dùng mã</button><button id="nativeScanBtn" type="button" class="primary">Mở máy quét</button></menu></form></dialog>
+  <dialog id="bluetoothDialog"><form method="dialog"><h2>In Bluetooth</h2><p class="dialog-help">Bản thử hỗ trợ Web Bluetooth trên Android/Chrome và bridge native cho WebView Android/iOS.</p><textarea id="printText" rows="12"></textarea><p id="bluetoothStatus" class="sync-status"></p><menu><button type="submit">Đóng</button><button id="nativePrintNow" type="button">In qua app</button><button id="bluetoothPrintNow" type="button" class="primary">Kết nối & in</button></menu></form></dialog>
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function(){
+        navigator.serviceWorker.register('service-worker.js').catch(function(){});
+      });
+    }
+  </script>
+</body>
+</html>
