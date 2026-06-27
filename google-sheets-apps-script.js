@@ -6,7 +6,7 @@
  *   Ví dụ URL: https://docs.google.com/spreadsheets/d/ABC123/edit
  *   ID là: ABC123
  */
-var SPREADSHEET_ID = ''; // Khuyến nghị: dán ID Google Sheet vào đây nếu Web App không ghi dữ liệu.
+var SPREADSHEET_ID = '1dFBhs7rzX6jksY-61sCHfG2M9eGRnXVckK4LiqcGCpU'; // Khuyến nghị: dán ID Google Sheet vào đây nếu Web App không ghi dữ liệu.
 
 function doPost(e) {
   try {
